@@ -6,11 +6,11 @@ services:
     image: mysql
     # envirnoment variables for mysql server startup
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: internship
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     # expose port 3306 to host machine
     ports:
-      - "3306:3306"
+      - ${MYSQL_PORT}:${MYSQL_PORT}
     # health check for mysql container to wait for mysql to start
     healthcheck:
       test: mysqladmin ping -h localhost -u root --password=$$MYSQL_ROOT_PASSWORD
@@ -19,15 +19,19 @@ services:
       timeout: 5s
       retries: 55
   app:
+    # use docker image
+    image: badrannn/internship-task:latest
     build:
     # build docker image from current directory
       context: .
-    # 
+    # use dockerfile in current directory
+      dockerfile: Dockerfile
+    # environment variables for app
     environment:
-      - MYSQL_HOST=mysql
-      - MYSQL_USER=root
-      - MYSQL_PASS=root
-      - MYSQL_PORT=3306
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASS=${MYSQL_PASS}
+      - MYSQL_PORT=${MYSQL_PORT}
     ports:
       - 9090:9090
     depends_on:

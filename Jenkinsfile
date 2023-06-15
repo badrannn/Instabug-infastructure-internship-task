@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-        DOCKER_IMAGE_NAME = 'instabug/internship-task:latest'
+        DOCKER_IMAGE_NAME = 'badrannn/internship-task'
     }
 
     stages {
@@ -35,13 +35,13 @@ pipeline {
             }
         }
     }
-    // post {
-    //     always {
-    //         catchError(buildResult: 'FAILURE', message: 'Docker logout failed: An error occurred during the logout.') {
+    post {
+        always {
+            catchError(buildResult: 'FAILURE', message: 'Docker logout failed: An error occurred during the logout.') {
                 
-    //                 sh 'docker logout'
+                    sh 'docker logout'
                 
-    //         }
-    //     }
-    // }
+            }
+        }
+    }
 }
