@@ -1,0 +1,40 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+
+image:
+  repository: badrannn/internship-task
+  pullPolicy: IfNotPresent
+  tag: latest
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  cpuTargetAverageUtilization: 70
+
+persistence:
+  enabled: true
+  size: 1Gi
+
+service:
+  name: my-app
+  type: NodePort
+  port: 9090
+
+
+mysql:
+  enabled: true
+  image:
+    repository: mysql
+    tag: 8.0
+  rootPassword: root
+  database: internship
+
+serviceAccount:
+  create: false
+
+ingress:
+  enabled: false
